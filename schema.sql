@@ -34,3 +34,43 @@ CREATE TABLE salaries (
   FOREIGN KEY (emp_no) REFERENCES employees (emp_no),
   PRIMARY KEY (emp_no)
 );
+
+create table dept_emp(
+ emp_no int Not null,
+ dept_no varchar(4) not null,
+ from_date date not null,
+ to_date  date not null,
+ foreign key (emp_no) references employees (emp_no),
+ foreign key(dept_no) references departments (dept_no),
+ Primary key (emp_no, dept_no)	
+);
+
+create table titles (
+	emp_no int not null, 
+	title  varchar not null,
+	from_date date not null,
+	to_date date not null,
+	foreign key (emp_no) references employees(emp_no),
+	primary key (emp_no,title,from_date)
+);
+
+
+select * from departments; 
+
+select * from employees;
+
+select * from dept_emp;
+
+select * from dept_manager;
+
+select * from salaries;
+
+select * from titles;
+
+
+
+
+
+
+
+
