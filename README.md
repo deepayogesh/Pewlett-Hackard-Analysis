@@ -1,6 +1,6 @@
 # Pewlett-Hackard-Analysis
 ## Goal of the project was to find number of employees who are retiring. List of employees who are eligible to be mentorship program. 
-## Summary 
+## Summary of silver tsunami
 ### 1.Number of Retiring Employees by Title
 - a. Employees whose birthday falls in the date range of January 1, 1952 and December 31, 1955 are Retiring. 
 - b. Employees records stores their birthday. I filtered out the employees records whose birthday falls in retiring range and got the list of retiring employees. 
@@ -16,3 +16,11 @@ When multiple title records were found only the latest title of the employee was
 - d. As I observed multiple entries of the employee in the Titles table.
 Only one latest record was selected to store in new table.
 New table Mentorship Eligibility stores the information of the employee such as first name, last name, department, latest tile.
+
+silver tsunami Analysis report 
+
+Retirement info table contains all the list of employees who were born between year 1952-1955 and they hired in Pewlett-Hackard in year 1985- 1988.
+Employee info table contains the complete information of an employee such as number, names, gender, salary and department who were current in Pewlett-Hackard and eligible for retirement. 
+Mentorship  program 
+We select the employees who were born in the year 1965.They  were consider for Mentoship program provided they are current employees in the company. 
+

@@ -147,9 +147,9 @@ into unique_titles
 from retirement_titles as rt
 Order by emp_no, to_date DESC; 
 --- 
--------------------------------------
+--------------------------------------------------------------------------
 -- Deliverable 2 
---
+--  Build the query in steps
 SELECT em.emp_no, 
 		em.first_name,
 		em.last_name,
@@ -160,83 +160,126 @@ SELECT em.emp_no,
 FROM  employees  AS em 
 JOIN dept_emp  AS dt
 ON  em.emp_no = dt.emp_no
-WHERE em.birth_date between '1965-01-01' and '1965-12-31'
-ORDER BY em.emp_no;  -- returns 2131 rows 
+--WHERE em.birth_date between '1965-01-01' and '1965-12-31'
+ORDER BY em.emp_no;  --  rows 
 --
-SELECT em.emp_no, 
+
+----
+SELECT distinct on(em.emp_no)em.emp_no,     -- choose one latest from duplicate records
 		em.first_name,
 		em.last_name,
-		em.birth_date
-	  	--dt.from_date,
-		--dt.to_date,
-		--tlt.title,
+		em.birth_date,
+		dt.from_date,
+		dt.to_date,
+		tlt.title
+--INTO   
+FROM  	employees  AS em 
+JOIN 	dept_emp  AS dt 
+ON  	em.emp_no = dt.emp_no 
+JOIN 	titles as tlt
+ON 		em.emp_no = tlt.emp_no
+WHERE 	(em.birth_date between '1965-01-01' and '1965-12-31')   --- Birthday range
+AND   	(dt.to_date = ('9999-01-01'))   --- Current employees 
+ORDER BY em.emp_no;  --  
+
+
+-- --
+-- now get titles 
+SELECT  distinct on(em.emp_no)em.emp_no,     -- choose one latest from duplicate records
+		em.first_name,
+		em.last_name,
+		em.birth_date,
+		dt.from_date,
+		dt.to_date,
+		tlt.title
 --INTO   
 FROM  employees  AS em 
-JOIN dept_emp  AS dt
-ON  em.emp_no = dt.emp_no
-WHERE em.birth_date between '1965-01-01' and '1965-12-31'
-ORDER BY em.emp_no;  -- returns 2131 rows 
+JOIN dept_emp  AS dt 
+ON  em.emp_no = dt.emp_no 
+JOIN titles as tlt
+ON em.emp_no = tlt.emp_no
+WHERE (em.birth_date between '1965-01-01' and '1965-12-31')   --- Birthday range
+AND   (dt.to_date = ('9999-01-01'))   --- Current employees 
+ORDER BY em.emp_no;  --  
+--  
+-- Before creating delete table and create new 
+drop table mentorship_eligibility;
 --
---drop table mentorship_eligibility;
---
-SELECT distinct on (em.emp_no)em.emp_no, 
+SELECT distinct on(em.emp_no)em.emp_no,     -- choose one latest from duplicate records
 		em.first_name,
 		em.last_name,
-		em.birth_date
-	  	--dt.from_date,
-		--dt.;to_date,
-		--tlt.title,
-INTO  mentorship_eligibility   --- Mentorship Eligibility  
+		em.birth_date,
+		dt.from_date,
+		dt.to_date,
+		tlt.title
+INTO   mentorship_eligibility
 FROM  employees  AS em 
-JOIN  dept_emp  AS dt
-ON    em.emp_no = dt.emp_no
-WHERE em.birth_date between '1965-01-01' and '1965-12-31'
-ORDER BY em.emp_no;  -- returns 2131 rows 
+JOIN dept_emp  AS dt 
+ON  em.emp_no = dt.emp_no 
+JOIN titles as tlt
+ON em.emp_no = tlt.emp_no
+WHERE (em.birth_date between '1965-01-01' and '1965-12-31')   --- Birthday range
+AND   (dt.to_date = ('9999-01-01'))   --- Current employees 
+ORDER BY em.emp_no;  --  
+--
+--
+select * from mentorship_eligibility;
+--
+select * from mentorship_eligibility where emp_no = 10095;
+--
+-----------------------------------------------------------------------------
+-- to check the result chosse to date from title table ass well, 
+SELECT distinct on(em.emp_no)em.emp_no,     --   distinct on(em.emp_no)  choose one latest from duplicate records
+		em.first_name,
+		em.last_name,
+		em.birth_date,
+		dt.from_date,
+		dt.to_date,
+		tlt.title, 
+		tlt.to_date as title_date
+--INTO   
+FROM  	employees  AS em 
+JOIN 	dept_emp  AS dt 
+ON  	em.emp_no = dt.emp_no 
+JOIN 	titles as tlt
+ON 		em.emp_no = tlt.emp_no
+WHERE  (em.birth_date between '1965-01-01' and '1965-12-31')   --- Birthday range
+AND    (dt.to_date = ('9999-01-01')) 
+and 	em.emp_no = 10095 --10031 --10122-- 10095   -- distinct on(em.emp_no)--- Current employees 
+ORDER BY em.emp_no;  --  
 
 
-
-
--- Tried these for the result are correct or not 
-select me.emp_no, 
-		me.first_name,
-		me.last_name,
-		me.birth_date,
-		tlt.title
-FROM   mentorship_eligibility  AS me
-JOIN   titles as tlt
-ON	 	me.emp_no = tlt.emp_no
-where me.emp_no = 10095
-ORDER BY me.emp_no;
-
-select DISTINCT ON (me.emp_no)me.emp_no, 
-		me.first_name,
-		me.last_name,
-		me.birth_date,
-		tlt.title
-FROM   mentorship_eligibility  AS me
-JOIN   titles as tlt
-ON	 	me.emp_no = tlt.emp_no
-where me.emp_no = 10095 
-ORDER BY me.emp_no;
----  why disticnt chose Senier staff as result because the distict on column of empno 
-
-
-select DISTINCT ON (me.emp_no)me.emp_no, 
-		me.first_name,
-		me.last_name,
-		me.birth_date,
-		tlt.title
-FROM   mentorship_eligibility  AS me
-JOIN   titles as tlt
-ON	 	me.emp_no = tlt.emp_no
---where me.emp_no = 10095 
-ORDER BY me.emp_no;
-
-
-
-
-
-
+---  tried to find out with one record what is happening 
+select distinct on (em.emp_no)em.emp_no,
+		em.first_name,
+		em.last_name,
+		em.birth_date, 
+ 		tlt.title,
+ 		dt.to_date
+from  	employees  as em
+join  	titles as tlt
+On    	em.emp_no = tlt.emp_no 
+JOIN  	dept_emp  AS dt 
+ON    	em.emp_no = dt.emp_no 
+WHERE 	(em.birth_date between '1965-01-01' and '1965-12-31')   --- Birthday range
+AND   	(dt.to_date = ('9999-01-01')) 
+and   	em.emp_no = 10095 
+order by em.emp_no ; 443308 rows 
+---- 
+-- this result shows the record of senior staff 
 
 
 -- 
+select count(*) from employees;    --300024 
+select * from employees;
+
+select * from retirement_titles order by emp_no;
+
+select count(*) from  retirement_info; --41380
+
+select * from retirement_info;  -- 41380 rows
+
+select count(*) from current_emp; -- 33118 employees 
+
+select * from  current_emp;
+
