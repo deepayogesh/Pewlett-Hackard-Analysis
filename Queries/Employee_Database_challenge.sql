@@ -15,7 +15,7 @@ drop table retirement_titles;
 --
 SELECT * from retirement_titles; 
 --
--- Create table for retirement Titles 
+-- 1 to 5- Create table for retirement Titles 
 SELECT 	em.emp_no, 
 		em.first_name, 
 		em.last_name,
@@ -35,7 +35,9 @@ ORDER BY em.emp_no;   --133776 records
 
 select count(*) from retirement_titles;   -- 133776
 
--- Use Dictinct with Orderby to remove duplicate rows
+select * from retirement_titles;
+
+-- 8, 9 Use Dictinct with Orderby to remove duplicate rows
 SELECT DISTINCT ON (emp_no)emp_no
 			first_name,
 			last_name,
@@ -46,10 +48,10 @@ ORDER BY emp_no,first_name DESC;
 --
 select count(*) from  clean_retirement_titles;  --90398
 
+select * from clean_retirement_titles;
+
 select * from titles;
 --
---
-select count(title) from  unique_titles;  -- 90398
 --
 --retrieve the number of employees by their most recent job title who
 -- del 1- step  15 
@@ -57,7 +59,8 @@ select cmp.emp_no,
 		cmp.first_name, 
 		cmp.last_name,
 		tlt.title,
-		tlt.from_date
+		tlt.from_date,
+		tlt.to_date
 from current_emp as cmp
 join titles as tlt
 on cmp.emp_no =tlt.emp_no
@@ -94,13 +97,15 @@ select distinct on (cmp.emp_no)cmp.emp_no,
 		cmp.first_name, 
 		cmp.last_name,
 		tlt.title,
-		tlt.from_date
+		tlt.from_date,
+		tlt.to_date
 from current_emp as cmp
 join titles as tlt
 on cmp.emp_no =tlt.emp_no
 where cmp.emp_no = 10004
 order by cmp.emp_no,tlt.from_date DESC;  -- tried with reccord of  emp_no = 10004
-
+--
+-- 15.  retrieve the number of employees by their most recent job title who are about to retire.
 select distinct on (cmp.emp_no)cmp.emp_no, 
 		cmp.first_name, 
 		cmp.last_name,
@@ -109,9 +114,11 @@ select distinct on (cmp.emp_no)cmp.emp_no,
 from current_emp as cmp
 join titles as tlt
 on cmp.emp_no =tlt.emp_no
---where cmp.emp_no = 10004
-order by cmp.emp_no,tlt.from_date DESC;  -- tried with reccord of  emp_no = 10004
+where tlt.to_date = '9999-01-01'  -- Recent job title title 
+order by cmp.emp_no,tlt.from_date DESC;  
 
+--
+--
 select distinct on (rt.emp_no)rt.emp_no, 
 		rt.first_name, 
 		rt.last_name,
@@ -120,25 +127,13 @@ select distinct on (rt.emp_no)rt.emp_no,
 from retirement_titles rt    ---from current_emp as cmp
 join titles as tlt
 on rt.emp_no =tlt.emp_no
---where cmp.emp_no = 10004
-order by rt.emp_no,tlt.from_date DESC;
-
-select distinct on (rt.emp_no)rt.emp_no, 
-		rt.first_name, 
-		rt.last_name,
-		rt.title,
-		tlt.from_date
-from retirement_titles rt    ---from current_emp as cmp
-join titles as tlt
-on rt.emp_no =tlt.emp_no
---where cmp.emp_no = 10004
 order by rt.emp_no,tlt.from_date DESC;
 -----
 --
 -- drop table unique_titles ;
 
 select * from unique_titles;
---- unique titles
+---13. Create table unique titles
 select DISTINCT ON (emp_no)emp_no ,
 				first_name,
 				last_name,
@@ -146,7 +141,23 @@ select DISTINCT ON (emp_no)emp_no ,
 into unique_titles 
 from retirement_titles as rt
 Order by emp_no, to_date DESC; 
+--
+-- 19.  REtiring titles table 
+select count(title)Total_count , title
+from unique_titles
+group by title
+order by count(title) DESC;
 --- 
+--drop table  retiring_titles;
+--
+-- 20 . create  retiring titles table 
+select count(title), title
+into retiring_titles 
+from unique_titles
+group by title
+order by count(title) DESC;
+--
+select * from retiring_titles;
 --------------------------------------------------------------------------
 -- Deliverable 2 
 --  Build the query in steps
@@ -267,8 +278,7 @@ and   	em.emp_no = 10095
 order by em.emp_no ; 443308 rows 
 ---- 
 -- this result shows the record of senior staff 
-
-
+-- for this employee Staff  title records is the curent title of this employee. 
 -- 
 select count(*) from employees;    --300024 
 select * from employees;
@@ -281,5 +291,4 @@ select * from retirement_info;  -- 41380 rows
 
 select count(*) from current_emp; -- 33118 employees 
 
-select * from  current_emp;
 
