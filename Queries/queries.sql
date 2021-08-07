@@ -4,7 +4,7 @@ WHERE birth_date BETWEEN '1952-01-01' AND '1955-12-31';
 
 SELECT count(first_name)
 FROM employees
-WHERE birth_date BETWEEN '1952-01-01' AND '1955-12-31';
+WHERE birth_date BETWEEN '1952-01-01' AND '1955-12-31';  --90398
 
 -- Retirement eligibility  born in 1953
 SELECT first_name, last_name
@@ -46,14 +46,14 @@ WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
 AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');    --41380
 
 
----- create new table here  as retirement _info to sotore employee records
+---- create new table here  as retirement _info to store employee records
 SELECT first_name, last_name
 INTO retirement_info
 FROM employees
-WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
-AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')    -- born between 1952- 1955
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');  -- and hire date 1985-1988
 
-select * from  retirement_info;
+select * from  retirement_info;  --- contains data of all employee names
 
 
 select dept_no, first_name, last_name
@@ -130,7 +130,7 @@ INTO 	current_emp
 FROM 	retirement_info as ri
 LEFT JOIN dept_emp as de
 ON 		ri.emp_no = de.emp_no
-WHERE  	de.to_date = ('9999-01-01');
+WHERE  	de.to_date = ('9999-01-01');    ---- current employee 
 --
 --Use Count, Group By, and Order By
 -- Employee count by department number

@@ -236,6 +236,11 @@ ORDER BY em.emp_no;  --
 --
 select * from mentorship_eligibility;
 --
+-- Lets observe the how many mentors per title 
+select count(title)MentorsCount, title   from mentorship_eligibility group by  title  order by MentorsCount DESC;
+--
+
+--
 select * from mentorship_eligibility where emp_no = 10095;
 --
 -----------------------------------------------------------------------------
