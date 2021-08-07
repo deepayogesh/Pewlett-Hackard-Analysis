@@ -7,7 +7,7 @@
  
 ### 3. Employees had multiple titles in the company due to their promotions or switching between departments, only current title being consider for this analysis.
 
-### 4. Retiring titles shows more number of Senior Engineer were retiring and just 2 Managers retiring. 
+### 4. Retiring titles shows more number of Seniors and just 2 Managers retiring. 
 ![total_retiring_titles.png](https://github.com/deepayogesh/Pewlett-Hackard-Analysis/blob/0a41432cf0bc488c5826e2cc6dad9fe57047270d/Data/total_retiring_titles.png)
 - HR department will need to hire more new employees in Senior Engineer and Senior Staff.
 
