@@ -15,5 +15,5 @@
 - ![mentorship_eligibilty_results.png](https://github.com/deepayogesh/Pewlett-Hackard-Analysis/blob/0a41432cf0bc488c5826e2cc6dad9fe57047270d/Data/mentorship_eligibilty_results.png)
 
 ### 6. Following results shows there were good number of employees are eligible for mentorship program.
-- !Mentoring_Titles.png](https://github.com/deepayogesh/Pewlett-Hackard-Analysis/blob/0a41432cf0bc488c5826e2cc6dad9fe57047270d/Data/Mentoring_Titles.png)
+- !Mentoring_Titles.png](https://github.com/deepayogesh/Pewlett-Hackard-Analysis/blob/9705b1329efa8e7d1341029e9e25db673a50b409/Data/Mentoring_Titles.png)
 
